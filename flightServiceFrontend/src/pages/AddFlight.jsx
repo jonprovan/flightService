@@ -2,7 +2,7 @@ import { AirportSelector } from '../components/AirportSelector';
 import { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import addFlightImage from '../images/add-flight.jpg';
+import addFlightImage from '../images/add-flight-2.jpg';
 
 export const AddFlight = () => {
 

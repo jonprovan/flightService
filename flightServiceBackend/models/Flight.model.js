@@ -39,7 +39,6 @@ const flightSchema = new Schema({
     currentPassengers: {
         type: Number,
         min: [0, 'Flights cannot have fewer than 0 passengers.'],
-        // Include validation to ensure this does not exceed capacity
         max: [545, 'The largest plane available has a capacity of 545.'],
         required: true
     }

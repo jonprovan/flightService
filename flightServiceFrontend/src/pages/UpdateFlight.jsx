@@ -2,7 +2,7 @@ import { AirportSelector } from '../components/AirportSelector';
 import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
-import updateFlightImage from '../images/update-flight.jpg';
+import updateFlightImage from '../images/update-flight-2.jpg';
 
 export const UpdateFlight = () => {
 
@@ -27,6 +27,8 @@ export const UpdateFlight = () => {
         try {
             await axios.put('http://localhost:8085/flights',
                 {
+                    oldFlightNumber: flightToUpdate.flight?.flightNumber,
+
                     _id: flightId,
                     flightNumber: flightNumber,
                     departureAirport: departureAirport, 

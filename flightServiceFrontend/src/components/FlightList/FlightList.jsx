@@ -9,9 +9,14 @@ export const FlightList = () => {
     const navigate = useNavigate();
 
     // GET all flights
-    useEffect(() => {
+    const flightInfo = () => {
         axios.get('http://localhost:8085/flights')
             .then(res => setFlights(res.data));
+    }
+
+    // force refresh of component
+    useEffect(() => {
+        flightInfo();
     }, []);
 
     // format dates to look nice
@@ -44,17 +49,43 @@ export const FlightList = () => {
     const handleDelete = async (flightNumberToDelete) => {
         try {
             await axios.delete(`http://localhost:8085/flights/${flightNumberToDelete}`);
-            navigate('../flights', {replace: true});
-            navigate(0);
+            // navigate('../flights', {replace: true});
+            flightInfo();
         } catch (error) {
             console.log('Flight deletion unsuccessful!');
         }
     }
+    
+    // sort flights by flight number
+    const sortedFlights = [...flights];
+    sortedFlights.sort((a, b) => {
+        if (a.flightNumber < b.flightNumber) {
+            return -1;
+        }
+        if (a.flightNumber > b.flightNumber) {
+            return 1;
+        }
+        return 0;
+    });
+
+    // // sort flights by departure date/time
+    // const sortedFlights = [...flights];
+    // sortedFlights.sort((a, b) => {
+    //     if (parseInt((a.departureDate.replace(/-/g, '') + a.departureTime.replace(':', ''))) 
+    //       < parseInt((b.departureDate.replace(/-/g, '') + b.departureTime.replace(':', '')))) {
+    //         return -1;
+    //     }
+    //     if (parseInt((a.departureDate.replace(/-/g, '') + a.departureTime.replace(':', ''))) 
+    //       > parseInt((b.departureDate.replace(/-/g, '') + b.departureTime.replace(':', '')))) {
+    //         return 1;
+    //     }
+    //     return 0;
+    // });
 
     // display flexgrid of flight cards
     return (
         <div className='flightList'>
-            {flights.map(flight => {
+            {sortedFlights.map(flight => {
                 return (
                     <div className='flightListItem' key={flight._id}>
                         <div>

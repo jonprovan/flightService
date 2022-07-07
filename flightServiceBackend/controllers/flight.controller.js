@@ -7,8 +7,15 @@ const findAllFlights = async (limit=0) => {
 }
 
 // ADD one
-const createFlight = async ({flightNumber, departureDate, arrivalDate, departureTime, arrivalTime, departureAirport, arrivalAirport, capacity, currentPassengers=0}) => {
-    
+const createFlight = async ({flightNumber, 
+                             departureDate, 
+                             arrivalDate, 
+                             departureTime, 
+                             arrivalTime, 
+                             departureAirport, 
+                             arrivalAirport, 
+                             capacity, 
+                             currentPassengers=0}) => {
     try {
         const flight = new Flight({
             flightNumber,
@@ -21,7 +28,6 @@ const createFlight = async ({flightNumber, departureDate, arrivalDate, departure
             capacity,
             currentPassengers
         });
-
         await flight.save();
         return flight._id;
     } 
@@ -43,9 +49,26 @@ const deleteFlight = async flightNumber => {
 }
 
 // UPDATE one
-const updateFlight = async ({ _id, flightNumber, departureAirport, departureDate, departureTime, arrivalAirport, arrivalDate, arrivalTime, currentPassengers, capacity }) => {
+const updateFlight = async ({ _id, 
+                              flightNumber, 
+                              departureAirport, 
+                              departureDate, 
+                              departureTime, 
+                              arrivalAirport, 
+                              arrivalDate, 
+                              arrivalTime, 
+                              currentPassengers, 
+                              capacity }) => {
     try {
-        const flight = await Flight.findOneAndUpdate({ _id }, { flightNumber, departureAirport, departureDate, departureTime, arrivalAirport, arrivalDate, arrivalTime, currentPassengers, capacity });
+        const flight = await Flight.findOneAndUpdate({ _id }, { flightNumber, 
+                                                                departureAirport, 
+                                                                departureDate, 
+                                                                departureTime, 
+                                                                arrivalAirport, 
+                                                                arrivalDate, 
+                                                                arrivalTime, 
+                                                                currentPassengers, 
+                                                                capacity });
         return flight;
     } catch (err) {
         console.error(err);
