@@ -1,6 +1,5 @@
 import { createContext } from "react";
 
-// Let's create a theme object to use with our context
 export const themes = {
     light: {
         backgroundColor: '#F6F5F5',

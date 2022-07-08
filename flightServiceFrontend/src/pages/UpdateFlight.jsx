@@ -1,4 +1,5 @@
 import { AirportSelector } from '../components/AirportSelector';
+import { Footer } from '../components/Footer';
 import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
@@ -6,9 +7,11 @@ import updateFlightImage from '../images/update-flight-2.jpg';
 
 export const UpdateFlight = () => {
 
+    // unpacking flight information passed from FlightList
     const location = useLocation();
     const flightToUpdate = {...location.state};
 
+    // using state for input fields and storing values passed from FlightList
     const [flightId] = useState(flightToUpdate.flight?._id || 1138);
     const [flightNumber, setFlightNumber] = useState(flightToUpdate.flight?.flightNumber || 1138);
     const [departureAirport, setDepartureAirport] = useState(flightToUpdate.flight?.departureAirport || 'EWR');
@@ -22,11 +25,13 @@ export const UpdateFlight = () => {
 
     const navigate = useNavigate();
 
+    // UPDATE the flight
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
             await axios.put('http://localhost:8085/flights',
                 {
+                    // adding this for backend validation, allows for overwrite of flight number
                     oldFlightNumber: flightToUpdate.flight?.flightNumber,
 
                     _id: flightId,
@@ -64,6 +69,7 @@ export const UpdateFlight = () => {
                 <div className='inputs'>
                     <input id="flightNumber" type={"number"} min={0} value={flightNumber} onChange={e => setFlightNumber(e.target.value)}></input>
                     <select id="departureAirport" value={departureAirport} onChange={e => setDepartureAirport(e.target.value)}>
+                        {/* Airport Selector always the same here and in Add Flight */}
                         <AirportSelector />
                     </select>
                     <input id="departureDate" type={"date"} value={departureDate} onChange={e => setDepartureDate(e.target.value)}></input>
@@ -82,6 +88,7 @@ export const UpdateFlight = () => {
                 </div>
                 <img src={updateFlightImage} alt="Update Flight" />
             </form>
+            <Footer />
         </div>
     )
 }

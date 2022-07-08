@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import flightIcon from '../../images/flight-icon.png'
 
-export const FlightList = () => {
+// taking hidden state from Flights as props
+export const FlightList = (props) => {
 
     const [flights, setFlights] = useState([]);
     const navigate = useNavigate();
@@ -14,7 +15,7 @@ export const FlightList = () => {
             .then(res => setFlights(res.data));
     }
 
-    // force refresh of component
+    // ensure refresh of component on delete
     useEffect(() => {
         flightInfo();
     }, []);
@@ -57,8 +58,8 @@ export const FlightList = () => {
     }
     
     // sort flights by flight number
-    const sortedFlights = [...flights];
-    sortedFlights.sort((a, b) => {
+    const flightsSortedByFlightNumber = [...flights];
+    flightsSortedByFlightNumber.sort((a, b) => {
         if (a.flightNumber < b.flightNumber) {
             return -1;
         }
@@ -68,43 +69,77 @@ export const FlightList = () => {
         return 0;
     });
 
-    // // sort flights by departure date/time
-    // const sortedFlights = [...flights];
-    // sortedFlights.sort((a, b) => {
-    //     if (parseInt((a.departureDate.replace(/-/g, '') + a.departureTime.replace(':', ''))) 
-    //       < parseInt((b.departureDate.replace(/-/g, '') + b.departureTime.replace(':', '')))) {
-    //         return -1;
-    //     }
-    //     if (parseInt((a.departureDate.replace(/-/g, '') + a.departureTime.replace(':', ''))) 
-    //       > parseInt((b.departureDate.replace(/-/g, '') + b.departureTime.replace(':', '')))) {
-    //         return 1;
-    //     }
-    //     return 0;
-    // });
+    // sort flights by departure date/time
+    const flightsSortedByDeparture = [...flights];
+    flightsSortedByDeparture.sort((a, b) => {
+        if (parseInt((a.departureDate.replace(/-/g, '') + a.departureTime.replace(':', ''))) 
+          < parseInt((b.departureDate.replace(/-/g, '') + b.departureTime.replace(':', '')))) {
+            return -1;
+        }
+        if (parseInt((a.departureDate.replace(/-/g, '') + a.departureTime.replace(':', ''))) 
+          > parseInt((b.departureDate.replace(/-/g, '') + b.departureTime.replace(':', '')))) {
+            return 1;
+        }
+        return 0;
+    });
+
+    // get hidden state from Flights
+    let hidden = props.hiddenState;
 
     // display flexgrid of flight cards
     return (
-        <div className='flightList'>
-            {sortedFlights.map(flight => {
-                return (
-                    <div className='flightListItem' key={flight._id}>
-                        <div>
-                            <input type={"button"} onClick={() => {updateFlight(flight)}}></input>
-                            <input type={"button"} onClick={e => {e.preventDefault(); handleDelete(flight.flightNumber)}}></input>
-                        </div>
-                        <h2>Flight #{flight.flightNumber}<img src={flightIcon} alt="Flight Icon"/></h2>
-                        <section>
-                            <h3>➤ Departs: {flight.departureAirport}</h3>
-                            <p>{displayDate(flight.departureDate)} @ {displayTime(flight.departureTime)}</p>
-                        </section>
-                        <section>
-                            <h3>⇥ Arrives: {flight.arrivalAirport}</h3>
-                            <p>{displayDate(flight.arrivalDate)} @ {displayTime(flight.arrivalTime)}</p>
-                        </section>
-                        <h4><span>☻</span>Passengers: {flight.currentPassengers}<span>(Max: {flight.capacity})</span></h4>
-                    </div>
-                );
-            })}
-        </div>
+        <>
+            {/* sorted by flight number (default) */}
+            {!hidden ?
+                <div className='flightList'>
+                    {flightsSortedByFlightNumber.map(flight => {
+                        return (
+                            <div className='flightListItem' key={flight._id}>
+                                <div>
+                                    <input type={"button"} onClick={() => {updateFlight(flight)}}></input>
+                                    <input type={"button"} onClick={e => {e.preventDefault(); handleDelete(flight.flightNumber)}}></input>
+                                </div>
+                                <h2>Flight #{flight.flightNumber}<img src={flightIcon} alt="Flight Icon"/></h2>
+                                <section>
+                                    <h3>➤ Departs: {flight.departureAirport}</h3>
+                                    <p>{displayDate(flight.departureDate)} @ {displayTime(flight.departureTime)}</p>
+                                </section>
+                                <section>
+                                    <h3>⇥ Arrives: {flight.arrivalAirport}</h3>
+                                    <p>{displayDate(flight.arrivalDate)} @ {displayTime(flight.arrivalTime)}</p>
+                                </section>
+                                <h4><span>☻</span>Passengers: {flight.currentPassengers}<span>(Max: {flight.capacity})</span></h4>
+                            </div>
+                        );
+                    })}
+                </div> 
+            : null}
+
+            {/* sorted by departure (on button click in Flights) */}
+            {hidden ?
+                <div className='flightList'>
+                    {flightsSortedByDeparture.map(flight => {
+                        return (
+                            <div className='flightListItem' key={flight._id}>
+                                <div>
+                                    <input type={"button"} onClick={() => {updateFlight(flight)}}></input>
+                                    <input type={"button"} onClick={e => {e.preventDefault(); handleDelete(flight.flightNumber)}}></input>
+                                </div>
+                                <h2>Flight #{flight.flightNumber}<img src={flightIcon} alt="Flight Icon"/></h2>
+                                <section>
+                                    <h3>➤ Departs: {flight.departureAirport}</h3>
+                                    <p>{displayDate(flight.departureDate)} @ {displayTime(flight.departureTime)}</p>
+                                </section>
+                                <section>
+                                    <h3>⇥ Arrives: {flight.arrivalAirport}</h3>
+                                    <p>{displayDate(flight.arrivalDate)} @ {displayTime(flight.arrivalTime)}</p>
+                                </section>
+                                <h4><span>☻</span>Passengers: {flight.currentPassengers}<span>(Max: {flight.capacity})</span></h4>
+                            </div>
+                        );
+                    })}
+                </div>
+            : null}
+        </>
     );
 }

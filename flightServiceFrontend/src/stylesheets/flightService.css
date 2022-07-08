@@ -1,3 +1,5 @@
+/* except for a couple styled nav components, all app CSS is in here */
+
 * {
     font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     margin: 0px;
@@ -11,6 +13,26 @@
     height: 100vh;
     padding-top: 16px;
     min-width: 1240px;
+}
+
+.container > button {
+    display: block;
+    clear: both;
+    text-align: center;
+    font-size: 18px;
+    margin-left: 48px;
+    padding: 10px;
+    border-radius: 6px;
+    background-color: rgb(61, 171, 255);
+    color: white;
+    font-weight: bold;
+    transition: background-color 0.2s;
+    width: 1116px;
+    border: 1px solid rgba(0, 0, 0, 0.25);
+}
+
+.container > button:hover {
+    background-color:  rgb(102, 191, 255);
 }
 
 h1 {
@@ -29,23 +51,33 @@ h1 span {
     margin-top: 8px;
 }
 
-h1 > button {
+h1 button {
     display: block;
     text-align: center;
     float: right;
     font-size: 18px;
     padding: 10px;
     border-radius: 6px;
-    margin-right: 72px;
-    background-color: rgb(27, 94, 9);
-    color: white;
-    text-decoration: none;
-    font-weight: bold;
+    background-color: rgb(94, 94, 94);
+    color: rgba(255, 255, 255, 0.8);
+    font-style: italic;
     transition: background-color 0.2s;
-    width: 300px;
+    width: 250px;
 }
 
-h1 > button:hover {
+h1 button:hover {
+    background-color:  rgb(110, 110, 110);
+}
+
+h1 button:first-of-type {
+    margin-left: 24px;
+    background-color: rgb(27, 94, 9);
+    font-style: normal;
+    font-weight: bold;
+    color: white;
+}
+
+h1 button:first-of-type:hover {
     background-color:  rgb(45, 127, 22);
 }
 
@@ -53,7 +85,7 @@ h1 > button:hover {
     float: left;
     height: 552px;
     width: 302px;
-    margin: 0px 24px 0px 48px;
+    margin: 0px 24px 18px 48px;
     background-color: rgba(0, 0, 0, 0.8);
     color: white;
     padding: 24px;
@@ -290,4 +322,14 @@ h1 > button:hover {
     width: 500px;
     height: 314px;
     border: 2px solid rgba(255, 255, 255, 0.85);
+}
+
+footer {
+    text-align: center;
+    background-color: rgba(255, 255, 255, .5);
+    color: black;
+    padding: 18px;
+    font-size: 12px;
+    font-style: italic;
+    margin-top: 24px;
 }

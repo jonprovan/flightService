@@ -1,3 +1,5 @@
+// same every time it's used, so isolated in a component
+
 export const AirportSelector = () => {
     return (
         <>

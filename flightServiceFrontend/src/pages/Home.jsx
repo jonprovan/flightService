@@ -1,6 +1,10 @@
 import homeImage from '../images/home.jpg';
+import { useNavigate } from "react-router-dom";
+import { Footer } from '../components/Footer';
 
 export const Home = () => {
+
+    const navigate = useNavigate();
 
     return (
         <div className="container">
@@ -13,6 +17,8 @@ export const Home = () => {
                 <p>We thank you kindly for choosing Ted Striker's Flight Service, and may you rest in peace.</p>
             </div>
             <img className="homeImage" src={homeImage} alt="Ted Striker's Flight Service" />
+            <button onClick={() => navigate('../Flights', {replace: true})}>I just wanted to say good luck, and we're all counting on you.</button>
+            <Footer />
         </div>
     )
 }
